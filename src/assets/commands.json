@@ -1,0 +1,17 @@
+[
+    {
+        "command": "help",
+        "isFunction": true,
+        "output": "return 'Usage: terminal [options] \\n \\n Options:\\n' + commands.map(function(c) { return '  ' + c.command; }).join('\\n');"
+    },
+    {
+        "command": "whoami",
+        "isFunction": false,
+        "output": "somebody"
+    },
+    {
+        "command": "skills",
+        "isFunction": false,
+        "output": "any"
+    }
+]
