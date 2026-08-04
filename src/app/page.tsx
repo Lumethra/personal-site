@@ -16,6 +16,8 @@ export default function Home() {
 
     focus();
 
+    init();
+
     window.addEventListener('keydown', focus);
 
     return () => {
@@ -27,17 +29,50 @@ export default function Home() {
     inputRef.current?.focus();
   };
 
+  async function init() {
+    if (!inputRef.current) return;
+
+    //inputRef.current.className = "type";
+
+    await typewriter("whoami", inputRef.current);
+
+    await typewriter("skills", inputRef.current);
+  }
+
+  function typewriter(value: any, input: any) {
+    return new Promise<void>((resolve, reject) => { // I have no idea what this is, I just read, that I need a new Promise and typed newpromise and then autocomplete, or whatever the thing of vs code is caleld gave me this
+      for (let i = 0; i < value.length; i++) {
+        setTimeout(() => {
+          input.value = value.slice(0, i + 1);
+        }, (i + 1) * 140); // need an increasing value somehow, or it not worki, i think it might just that the timeout gets precess in the same time, cause for dont waits till timeout finish
+      }
+
+      setTimeout(processInput, (value.length * 140) + 500);
+
+      const findCommands = commands.find(function (item) {
+        return item.command.toLowerCase() === value.toLowerCase();
+      });
+
+      setTimeout(resolve, (value.length * 140) + 1000 + (findCommands ? findCommands.delay : 100)); // holy is this complicated
+    })
+  }
+
+
   function handleKeyDown(e: any) {
     if (e.key === "Enter") {
-      const commandInput = inputRef.current;
-
-      const command = commandInput?.value.trim();
-      if (!command) return;
-
-      constructOutput(command);
-
-      if (commandInput) commandInput.value = "";
+      processInput();
     }
+  }
+
+  function processInput() {
+    const commandInput = inputRef.current;
+
+    const command = commandInput?.value.trim();
+    if (!command) return;
+
+    constructOutput(command);
+
+    if (commandInput) commandInput.value = "";
   }
 
   function constructOutput(command: any) {
