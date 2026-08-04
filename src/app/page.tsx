@@ -7,6 +7,7 @@ import commands from '@/assets/commands.json';
 export default function Home() {
   const inputRef = useRef<HTMLInputElement>(null);
   const historyRef = useRef<HTMLDivElement>(null);
+  const statusRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     function focus() {
@@ -80,10 +81,18 @@ export default function Home() {
     commandLine.innerHTML = `<span class="prompt">❯</span> <span class="command ${ifError}">${command}</span>`;
     terminal.appendChild(commandLine);
 
-    const outputLine = document.createElement('div');
-    outputLine.className = 'terminal-line output';
-    outputLine.innerHTML = `<span class="output ${ifError}">${getOutput()}</span>`;
-    terminal.appendChild(outputLine);
+    setTimeout(() => {
+      if (!terminal) return;
+
+      const outputLine = document.createElement('div');
+      outputLine.className = 'terminal-line output';
+      outputLine.innerHTML = `<span class="output ${ifError}">${getOutput()}</span>`;
+      terminal.appendChild(outputLine);
+    }, findCommands ? findCommands.delay : 100)
+
+    if (statusRef.current) {
+      statusRef.current.innerHTML = ` <span style="color: ${findCommands ? "blue" : "red"}">${findCommands ? "✔" : "✘"}</span>  ${findCommands ? findCommands.delay / 1000 : 0.1}s `;
+    }
 
     terminal.scrollTop = terminal.scrollHeight;
   }
@@ -92,7 +101,7 @@ export default function Home() {
     <div>
       <div id="history" ref={historyRef}></div>
       <div id="input">
-        ╭─<span style={{ background: "#00ff00", color: "blue" }}> ~ </span> <br />
+        ╭─<span style={{ background: "#00ff00", color: "blue" }}> ~ </span> <span style={{ position: "absolute", right: "20px" }}><span ref={statusRef} style={{ background: "#00ff00", color: "blue" }}> ✔ </span></span><br />
         <div style={{ display: "inline-flex", alignItems: "center", width: "100%" }}>
           ╰─
           {/* we luve random ahh stack overflow posts */}

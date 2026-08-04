@@ -2,16 +2,19 @@
     {
         "command": "help",
         "isFunction": true,
+        "delay": 200,
         "output": "return 'Usage: terminal [options] \\n \\n Options:\\n' + commands.map(function(c) { return '  ' + c.command; }).join('\\n');"
     },
     {
         "command": "whoami",
         "isFunction": false,
-        "output": "somebody"
+        "delay": 300,
+        "output": "Lumethra, also known as Maximilian :)"
     },
     {
         "command": "skills",
         "isFunction": false,
+        "delay": 600,
         "output": "any"
     }
 ]
