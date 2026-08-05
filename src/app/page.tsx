@@ -33,26 +33,26 @@ export default function Home() {
 
     //inputRef.current.className = "type";
 
-    await typewriter("whoami", inputRef.current);
-
-    await typewriter("skills", inputRef.current);
+    await typewriter("whoami", inputRef.current, 140);
+    await typewriter("skills", inputRef.current, 140);
+    await typewriter("help", inputRef.current, 140);
   }
 
-  function typewriter(value: any, input: any) {
+  function typewriter(value: any, input: any, speed: any) {
     return new Promise<void>((resolve, reject) => { // I have no idea what this is, I just read, that I need a new Promise and typed newpromise and then autocomplete, or whatever the thing of vs code is caleld gave me this
       for (let i = 0; i < value.length; i++) {
         setTimeout(() => {
           input.value = value.slice(0, i + 1);
-        }, (i + 1) * 140); // need an increasing value somehow, or it not worki, i think it might just that the timeout gets precess in the same time, cause for dont waits till timeout finish
+        }, (i + 1) * speed); // need an increasing value somehow, or it not worki, i think it might just that the timeout gets precess in the same time, cause for dont waits till timeout finish
       }
 
-      setTimeout(processInput, (value.length * 140) + 500);
+      setTimeout(processInput, (value.length * speed) + 500);
 
       const findCommands = commands.find(function (item) {
         return item.command.toLowerCase() === value.toLowerCase();
       });
 
-      setTimeout(resolve, (value.length * 140) + 1000 + (findCommands ? findCommands.delay : 100)); // holy is this complicated
+      setTimeout(resolve, (value.length * speed) + 1000 + (findCommands ? findCommands.delay : 100)); // holy is this complicated
     })
   }
 
@@ -66,7 +66,10 @@ export default function Home() {
   function processInput() {
     const commandInput = inputRef.current;
 
-    const command = commandInput?.value.trim();
+    let command = commandInput?.value.trim();
+    if (!command) return;
+
+    command = command.replace(/terminal/g, "").trim(); // THANKS (https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/String/replace)
     if (!command) return;
 
     constructOutput(command);
@@ -128,7 +131,21 @@ export default function Home() {
       statusRef.current.innerHTML = ` <span style="color: ${findCommands ? "blue" : "red"}">${findCommands ? "✔" : "✘"}</span>  ${findCommands ? findCommands.delay / 1000 : 0.1}s `;
     }
 
+    if (findCommands?.command === "history clear") {
+      localStorage.removeItem("history");
+    } else {
+      addToHistory(command);
+    }
+
     terminal.scrollTop = terminal.scrollHeight;
+  }
+
+  function addToHistory(command: any) {
+    const history = JSON.parse(localStorage.getItem("history") ?? "[]");
+
+    history.push(command);
+
+    localStorage.setItem("history", JSON.stringify(history));
   }
 
   return (

@@ -16,5 +16,17 @@
         "isFunction": false,
         "delay": 600,
         "output": "any"
+    },
+    {
+        "command": "clear",
+        "isFunction": true,
+        "delay": 700,
+        "output": "document.getElementById('history').innerHTML = ''; return '';"
+    },
+    {
+        "command": "clear history",
+        "isFunction": false,
+        "delay": 700,
+        "output": "Command history cleared successful!!"
     }
 ]
