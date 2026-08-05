@@ -20,7 +20,7 @@
     {
         "command": "clear",
         "isFunction": true,
-        "delay": 700,
+        "delay": 1000,
         "output": "document.getElementById('history').innerHTML = ''; return '';"
     },
     {

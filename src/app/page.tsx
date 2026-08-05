@@ -131,7 +131,7 @@ export default function Home() {
       statusRef.current.innerHTML = ` <span style="color: ${findCommands ? "blue" : "red"}">${findCommands ? "✔" : "✘"}</span>  ${findCommands ? findCommands.delay / 1000 : 0.1}s `;
     }
 
-    if (findCommands?.command === "history clear") {
+    if (findCommands?.command === "clear history") {
       localStorage.removeItem("history");
     } else {
       addToHistory(command);
