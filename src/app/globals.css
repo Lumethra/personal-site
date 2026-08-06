@@ -62,6 +62,10 @@ a {
   white-space: pre-wrap;
 }
 
+.orphie {
+  white-space: pre;
+}
+
 /*
 https://css-tricks.com/snippets/css/typewriter-effect/
 
