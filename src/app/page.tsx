@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import commands from '@/assets/commands.json';
 
 export default function Home() {
   const inputRef = useRef<HTMLInputElement>(null);
   const historyRef = useRef<HTMLDivElement>(null);
   const statusRef = useRef<HTMLSpanElement>(null);
+  const [historyIndex, setHistoryIndex] = useState(-1);
 
   useEffect(() => {
     function focus() {
@@ -56,11 +57,42 @@ export default function Home() {
     })
   }
 
-
   function handleKeyDown(e: any) {
     if (e.key === "Enter") {
       processInput();
     }
+
+    if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+      e.preventDefault();
+      const history = JSON.parse(localStorage.getItem("history") ?? "[]");
+
+      if (history.length > 0) {
+        setHistoryIndex((prev) => {
+          const next = e.key === "ArrowUp"
+            ? prev < history.length - 1 ? prev + 1 : prev
+            : prev > 0 ? prev - 1 : prev
+          inputRef.current && (inputRef.current.value = history[history.length - 1 - next]);
+          return next;
+        });
+      }
+    }
+
+    // if (e.key === "ArrowDown") {
+    //   e.preventDefault();
+    //   const history = JSON.parse(localStorage.getItem("history") ?? "[]");
+
+    //   if (history.length > 0) {
+    //     setHistoryIndex((prev) => {
+    //       const next = prev > 0 ? prev - 1 : prev;
+    //       inputRef.current && (inputRef.current.value = history[history.length - 1 - next]);
+    //       return next;
+    //     });
+    //   }
+    // }
+  }
+
+  function handleInputChange() {
+    setHistoryIndex(-1); // resets when someone types
   }
 
   function processInput() {
@@ -156,7 +188,7 @@ export default function Home() {
         <div style={{ display: "inline-flex", alignItems: "center", width: "100%" }}>
           ╰─
           {/* we luve random ahh stack overflow posts */}
-          <input type="text" id="command-input" ref={inputRef} onBlur={handleBlur} onKeyDown={handleKeyDown} />
+          <input type="text" id="command-input" ref={inputRef} onBlur={handleBlur} onKeyDown={handleKeyDown} onChange={handleInputChange} />
         </div>
       </div>
     </div >
