@@ -4,8 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import commands from '@/assets/commands.json';
 import orphieTyping from '@/assets/orphie-typing.json';
 import orphieCelebrating from '@/assets/orphie-celebrating.json';
+import orphieSleeping from '@/assets/orphie-sleeping.json';
 const orphieTypingFrames = orphieTyping.map(frame => frame.join('\n'));
 const orphieCelebratingFrames = orphieCelebrating.map(frame => frame.join('\n'));
+const orphieSleepingFrames = orphieSleeping.map(frame => frame.join('\n'));
 
 export default function Home() {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -198,6 +200,7 @@ export default function Home() {
 
             await play(orphieTypingFrames, 3000, 150);
             await play(orphieCelebratingFrames, 1300, 300);
+            await play(orphieSleepingFrames, 6000, 300);
 
             loop();
           };
