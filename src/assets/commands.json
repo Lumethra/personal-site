@@ -3,36 +3,49 @@
         "command": "help",
         "isFunction": true,
         "delay": 200,
+        "isArt": false,
         "output": "return 'Usage: terminal [options] \\n \\n Options:\\n' + commands.map(function(c) { return '  ' + c.command; }).join('\\n');"
     },
     {
         "command": "whoami",
         "isFunction": false,
         "delay": 300,
+        "isArt": false,
         "output": "Lumethra, also known as Maximilian :)"
     },
     {
         "command": "age",
         "isFunction": true,
         "delay": 200,
+        "isArt": false,
         "output": "return '<span id=age>' + (new Date() - new Date('2010-01-19')) / 31556952000 + '</span>'"
     },
     {
         "command": "skills",
         "isFunction": false,
         "delay": 600,
-        "output": "any"
+        "isArt": false,
+        "output": "alot"
+    },
+    {
+        "command": "orphie",
+        "isFunction": false,
+        "delay": 400,
+        "isArt": true,
+        "output": ""
     },
     {
         "command": "clear",
         "isFunction": true,
         "delay": 1000,
+        "isArt": false,
         "output": "document.getElementById('history').innerHTML = ''; return '';"
     },
     {
         "command": "clear history",
         "isFunction": false,
         "delay": 700,
+        "isArt": false,
         "output": "Command history cleared successful!!"
     }
 ]

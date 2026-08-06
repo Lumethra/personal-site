@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import commands from '@/assets/commands.json';
+import orphie from '@/assets/orphie.json';
+const orphieFrames = orphie.map(frame => frame.join('\n'));
 
 export default function Home() {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -153,6 +155,10 @@ export default function Home() {
         return outputFunction(commands);
       }
 
+      if (findCommands?.isArt) {
+        return `<span class="orphie">${orphieFrames[0]}</span>`;
+      }
+
       return findCommands?.output;
     }
 
@@ -168,6 +174,27 @@ export default function Home() {
       outputLine.className = 'terminal-line output';
       outputLine.innerHTML = `<span class="output ${ifError}">${getOutput()}</span>`;
       terminal.appendChild(outputLine);
+
+      if (findCommands && findCommands.isArt) {
+        const animContainer = outputLine.querySelector('.orphie');
+
+        if (animContainer) {
+          let frame = 0;
+
+          const play = () => {
+            if (!animContainer.isConnected) return;
+
+            animContainer.textContent = orphieFrames[frame];
+            frame = (frame + 1) % orphieFrames.length;
+
+            setTimeout(play, 150);
+          };
+
+          play();
+        }
+      }
+
+      terminal.scrollTop = terminal.scrollHeight;
     }, findCommands ? findCommands.delay : 100)
 
     if (statusRef.current) {
@@ -195,7 +222,10 @@ export default function Home() {
     <div>
       <div id="history" ref={historyRef}></div>
       <div id="input">
-        ╭─<span style={{ background: "#00ff00", color: "blue" }}> ~ </span> <span style={{ position: "absolute", right: "20px" }}><span ref={statusRef} style={{ background: "#00ff00", color: "blue" }}> ✔ </span></span><br />
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+          <span>╭─<span style={{ background: "#00ff00", color: "blue" }}> ~ </span> </span>
+          <span><span ref={statusRef} style={{ background: "#00ff00", color: "blue" }}> ✔ </span></span>
+        </div>
         <div style={{ display: "inline-flex", alignItems: "center", width: "100%" }}>
           ╰─
           {/* we luve random ahh stack overflow posts */}
