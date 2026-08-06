@@ -16,24 +16,13 @@ export default function Home() {
       inputRef.current?.focus();
     }
 
-    function updateAge() {
-      const age = (new Date().getTime() - new Date('2010-01-19').getTime()) / 31556952000; // thanks google for 31556952000 this specific value
-      const ageElement = document.getElementById('age');
-      if (ageElement) {
-        ageElement.textContent = age.toString();
-      }
-    }
-
     focus();
     init();
-    updateAge();
 
     window.addEventListener('keydown', focus);
-    const ageInterval = setInterval(updateAge, 50);
 
     return () => {
       window.removeEventListener('keydown', focus);
-      clearInterval(ageInterval);
     };
   }, []);
 
@@ -192,6 +181,20 @@ export default function Home() {
 
           play();
         }
+      }
+
+      if (findCommands && findCommands.command === "age") {
+        function updateAge() {
+          const age = (new Date().getTime() - new Date('2010-01-19').getTime()) / 31556952000; // thanks google for 31556952000 this specific value
+          const ageElement = outputLine.querySelector('.age');
+          if (ageElement) {
+            ageElement.textContent = age.toString();
+          }
+
+          setTimeout(updateAge, 50);
+        }
+
+        updateAge();
       }
 
       terminal.scrollTop = terminal.scrollHeight;

@@ -18,7 +18,7 @@
         "isFunction": true,
         "delay": 200,
         "isArt": false,
-        "output": "return '<span id=age>' + (new Date() - new Date('2010-01-19')) / 31556952000 + '</span>'"
+        "output": "return '<span class=age>' + (new Date() - new Date('2010-01-19')) / 31556952000 + '</span>'"
     },
     {
         "command": "skills",
