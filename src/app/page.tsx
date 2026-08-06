@@ -14,14 +14,24 @@ export default function Home() {
       inputRef.current?.focus();
     }
 
-    focus();
+    function updateAge() {
+      const age = (new Date().getTime() - new Date('2010-01-19').getTime()) / 31556952000; // thanks google for 31556952000 this specific value
+      const ageElement = document.getElementById('age');
+      if (ageElement) {
+        ageElement.textContent = age.toString();
+      }
+    }
 
+    focus();
     init();
+    updateAge();
 
     window.addEventListener('keydown', focus);
+    const ageInterval = setInterval(updateAge, 50);
 
     return () => {
       window.removeEventListener('keydown', focus);
+      clearInterval(ageInterval);
     };
   }, []);
 
@@ -35,6 +45,7 @@ export default function Home() {
     //inputRef.current.className = "type";
 
     await typewriter("whoami", inputRef.current, 140);
+    await typewriter("age", inputRef.current, 140);
     await typewriter("skills", inputRef.current, 140);
     await typewriter("help", inputRef.current, 140);
   }

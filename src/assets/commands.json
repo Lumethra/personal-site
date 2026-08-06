@@ -12,6 +12,12 @@
         "output": "Lumethra, also known as Maximilian :)"
     },
     {
+        "command": "age",
+        "isFunction": true,
+        "delay": 200,
+        "output": "return '<span id=age>' + (new Date() - new Date('2010-01-19')) / 31556952000 + '</span>'"
+    },
+    {
         "command": "skills",
         "isFunction": false,
         "delay": 600,
