@@ -223,6 +223,7 @@ export default function Home() {
         updateAge();
       }
 
+      document.body.scrollTop = document.body.scrollHeight;
     }, findCommands ? findCommands.delay : 100)
 
     if (statusRef.current) {
@@ -235,8 +236,7 @@ export default function Home() {
       addToHistory(command);
     }
 
-    const body = document.documentElement || document.body;
-    body.scrollTop = body.scrollHeight;
+    document.body.scrollTop = document.body.scrollHeight;
   }
 
   function addToHistory(command: any) {
