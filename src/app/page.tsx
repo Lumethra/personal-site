@@ -2,8 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 import commands from '@/assets/commands.json';
-import orphie from '@/assets/orphie.json';
-const orphieFrames = orphie.map(frame => frame.join('\n'));
+import orphieTyping from '@/assets/orphie-typing.json';
+import orphieCelebrating from '@/assets/orphie-celebrating.json';
+const orphieTypingFrames = orphieTyping.map(frame => frame.join('\n'));
+const orphieCelebratingFrames = orphieCelebrating.map(frame => frame.join('\n'));
 
 export default function Home() {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -145,7 +147,7 @@ export default function Home() {
       }
 
       if (findCommands?.isArt) {
-        return `<span class="orphie">${orphieFrames[0]}</span>`;
+        return `<span class="orphie">${orphieTypingFrames[0]}</span>`;
       }
 
       return findCommands?.output;
@@ -168,18 +170,39 @@ export default function Home() {
         const animContainer = outputLine.querySelector('.orphie');
 
         if (animContainer) {
-          let frame = 0;
+          const play = (frames: any, duration: any, speed: any) => {
+            return new Promise<void>((resolve) => {
+              let frame = 0;
+              let time = 0;
 
-          const play = () => {
-            if (!animContainer.isConnected) return;
+              const nextFrame = () => {
+                if (!animContainer.isConnected) return resolve();
 
-            animContainer.textContent = orphieFrames[frame];
-            frame = (frame + 1) % orphieFrames.length;
+                animContainer.textContent = frames[frame];
+                frame = (frame + 1) % frames.length;
+                time += speed;
 
-            setTimeout(play, 150);
+                if (time < duration) {
+                  setTimeout(nextFrame, speed);
+                } else {
+                  resolve();
+                }
+              };
+
+              nextFrame();
+            });
           };
 
-          play();
+          const loop = async () => {
+            if (!animContainer.isConnected) return;
+
+            await play(orphieTypingFrames, 3000, 150);
+            await play(orphieCelebratingFrames, 1300, 300);
+
+            loop();
+          };
+
+          loop();
         }
       }
 
