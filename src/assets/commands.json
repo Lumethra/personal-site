@@ -25,7 +25,14 @@
         "isFunction": false,
         "delay": 600,
         "isArt": false,
-        "output": "alot"
+        "output": " - Javascript/Typescript \n - HTML \n - CSS \n - NodeJS \n - NextJS \n - Python \n - C++ \n - Git \n - Shell"
+    },
+    {
+        "command": "interests",
+        "isFunction": false,
+        "delay": 300,
+        "isArt": false,
+        "output": " - coding \n - hardware \n - 3d printing \n - playing the piano \n - physics \n - fighter jets (F-22 Raptor) \n "
     },
     {
         "command": "orphie",
