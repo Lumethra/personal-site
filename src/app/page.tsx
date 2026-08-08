@@ -64,7 +64,9 @@ export default function Home() {
               ? speed
               : value[i] === " " ? 0 : speed);
         } catch (e) {
-          backupType(value, input, speed, i);
+          setTimeout(() => {
+            isInput(input) ? input.value : input.textContent = value.slice(0, i + 1);
+          }, (i + 1) * speed); // need an increasing value somehow, or it not worki, i think it might just that the timeout gets precess in the same time, cause for dont waits till timeout finish
         }
       }
 
@@ -84,12 +86,6 @@ export default function Home() {
 
   function isInput(input: any) {
     return input instanceof HTMLInputElement ? true : false;
-  }
-
-  function backupType(value: any, input: any, speed: any, i: any) {
-    setTimeout(() => {
-      isInput(input) ? input.value : input.textContent = value.slice(0, i + 1);
-    }, (i + 1) * speed); // need an increasing value somehow, or it not worki, i think it might just that the timeout gets precess in the same time, cause for dont waits till timeout finish
   }
 
   function handleKeyDown(e: any) {
