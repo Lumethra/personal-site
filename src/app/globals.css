@@ -66,23 +66,7 @@ a {
   white-space: pre;
 }
 
-/*
-https://css-tricks.com/snippets/css/typewriter-effect/
+.welcome {
+  white-space: pre;
 
-
-.type {
-  animation:
-    typing 3.5s steps(40, end),
 }
-
-@keyframes typing {
-  from {
-    width: 0
-  }
-
-  to {
-    width: 100%
-  }
-}
-
-*/

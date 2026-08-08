@@ -7,6 +7,13 @@
         "output": "return 'Usage: terminal [options] \\n \\n Options:\\n' + commands.map(function(c) { return '  ' + c.command; }).join('\\n');"
     },
     {
+        "command": "welcome",
+        "isFunction": false,
+        "delay": 100,
+        "isArt": false,
+        "output": "Welcome"
+    },
+    {
         "command": "whoami",
         "isFunction": false,
         "delay": 300,

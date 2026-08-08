@@ -5,9 +5,12 @@ import commands from '@/assets/commands.json';
 import orphieTyping from '@/assets/orphie-typing.json';
 import orphieCelebrating from '@/assets/orphie-celebrating.json';
 import orphieSleeping from '@/assets/orphie-sleeping.json';
+import ASCIIText from '@/assets/ASCII-text.json';
+
 const orphieTypingFrames = orphieTyping.map(frame => frame.join('\n'));
 const orphieCelebratingFrames = orphieCelebrating.map(frame => frame.join('\n'));
 const orphieSleepingFrames = orphieSleeping.map(frame => frame.join('\n'));
+const ASCIITextFrame = ASCIIText.map(frame => frame.map(line => `<span>${line}</span>`).join('\n'));
 
 export default function Home() {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -39,28 +42,54 @@ export default function Home() {
 
     //inputRef.current.className = "type";
 
+    await typewriter("welcome", inputRef.current, 140);
+    await typewriter("clear", inputRef.current, 140);
     await typewriter("whoami", inputRef.current, 140);
     await typewriter("age", inputRef.current, 140);
     await typewriter("skills", inputRef.current, 140);
     await typewriter("help", inputRef.current, 140);
   }
 
+  const sleep = (time: any) => new Promise<void>((resolve) => setTimeout(resolve, time))
+
   function typewriter(value: any, input: any, speed: any) {
-    return new Promise<void>((resolve, reject) => { // I have no idea what this is, I just read, that I need a new Promise and typed newpromise and then autocomplete, or whatever the thing of vs code is caleld gave me this
+    return new Promise<void>(async (resolve, reject) => { // I have no idea what this is, I just read, that I need a new Promise and typed newpromise and then autocomplete, or whatever the thing of vs code is caleld gave me this
       for (let i = 0; i < value.length; i++) {
-        setTimeout(() => {
-          input.value = value.slice(0, i + 1);
-        }, (i + 1) * speed); // need an increasing value somehow, or it not worki, i think it might just that the timeout gets precess in the same time, cause for dont waits till timeout finish
+        try {
+          isInput(input)
+            ? input.value = value.slice(0, i + 1)
+            : input.textContent = value.slice(0, i + 1);
+          await sleep(
+            isInput(input)
+              ? speed
+              : value[i] === " " ? 0 : speed);
+        } catch (e) {
+          backupType(value, input, speed, i);
+        }
       }
 
-      setTimeout(processInput, (value.length * speed) + 500);
+      if (isInput(input)) {
+        setTimeout(processInput, (value.length * speed) + 300);
 
-      const findCommands = commands.find(function (item) {
-        return item.command.toLowerCase() === value.toLowerCase();
-      });
+        const findCommands = commands.find(function (item) {
+          return item.command.toLowerCase() === value.toLowerCase();
+        });
 
-      setTimeout(resolve, (value.length * speed) + 1000 + (findCommands ? findCommands.delay : 100)); // holy is this complicated
+        setTimeout(resolve, (value.length * speed) + 1000 + (findCommands ? findCommands.delay : 100)); // holy is this complicated
+      } else {
+        resolve();
+      }
     })
+  }
+
+  function isInput(input: any) {
+    return input instanceof HTMLInputElement ? true : false;
+  }
+
+  function backupType(value: any, input: any, speed: any, i: any) {
+    setTimeout(() => {
+      isInput(input) ? input.value : input.textContent = value.slice(0, i + 1);
+    }, (i + 1) * speed); // need an increasing value somehow, or it not worki, i think it might just that the timeout gets precess in the same time, cause for dont waits till timeout finish
   }
 
   function handleKeyDown(e: any) {
@@ -152,6 +181,10 @@ export default function Home() {
         return `<span class="orphie">${orphieTypingFrames[0]}</span>`;
       }
 
+      if (findCommands?.output === "Welcome") {
+        return `<span class="welcome">${ASCIITextFrame}</span>`;
+      }
+
       return findCommands?.output;
     }
 
@@ -221,6 +254,24 @@ export default function Home() {
         }
 
         updateAge();
+      }
+
+      async function animateWelcome() {
+        const welcomeLines = outputLine.querySelectorAll('.welcome > span');
+        if (!welcomeLines) return;
+
+        welcomeLines.forEach(element => {
+          const text = element.textContent;
+
+          return typewriter(text, element, 20);
+        });
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
+
+        //await typewriter(welcome.textContent, welcome, 50);
+      }
+
+      if (findCommands?.command === "welcome") {
+        animateWelcome();
       }
 
       document.body.scrollTop = document.body.scrollHeight;
