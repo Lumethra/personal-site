@@ -42,12 +42,12 @@ export default function Home() {
 
     //inputRef.current.className = "type";
 
-    await typewriter("welcome", inputRef.current, 140, false);
-    await typewriter("clear", inputRef.current, 140, false);
-    await typewriter("whoami", inputRef.current, 140, false);
-    await typewriter("age", inputRef.current, 140, false);
-    await typewriter("skills", inputRef.current, 140, false);
-    await typewriter("help", inputRef.current, 140, false);
+    await typewriter("welcome", inputRef.current, 140, true);
+    await typewriter("clear", inputRef.current, 140, true);
+    await typewriter("whoami", inputRef.current, 140, true);
+    await typewriter("age", inputRef.current, 140, true);
+    await typewriter("skills", inputRef.current, 140, true);
+    await typewriter("help", inputRef.current, 140, true);
   }
 
   const sleep = (time: any) => new Promise<void>((resolve) => setTimeout(resolve, time))
@@ -259,7 +259,7 @@ export default function Home() {
         welcomeLines.forEach(element => {
           const text = element.textContent;
 
-          return typewriter(text, element, 20, true);
+          return typewriter(text, element, 20, false);
         });
         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
 
