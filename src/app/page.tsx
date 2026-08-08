@@ -42,17 +42,17 @@ export default function Home() {
 
     //inputRef.current.className = "type";
 
-    await typewriter("welcome", inputRef.current, 140);
-    await typewriter("clear", inputRef.current, 140);
-    await typewriter("whoami", inputRef.current, 140);
-    await typewriter("age", inputRef.current, 140);
-    await typewriter("skills", inputRef.current, 140);
-    await typewriter("help", inputRef.current, 140);
+    await typewriter("welcome", inputRef.current, 140, false);
+    await typewriter("clear", inputRef.current, 140, false);
+    await typewriter("whoami", inputRef.current, 140, false);
+    await typewriter("age", inputRef.current, 140, false);
+    await typewriter("skills", inputRef.current, 140, false);
+    await typewriter("help", inputRef.current, 140, false);
   }
 
   const sleep = (time: any) => new Promise<void>((resolve) => setTimeout(resolve, time))
 
-  function typewriter(value: any, input: any, speed: any) {
+  function typewriter(value: any, input: any, speed: any, noSpace: boolean) {
     return new Promise<void>(async (resolve, reject) => { // I have no idea what this is, I just read, that I need a new Promise and typed newpromise and then autocomplete, or whatever the thing of vs code is caleld gave me this
       for (let i = 0; i < value.length; i++) {
         try {
@@ -60,7 +60,7 @@ export default function Home() {
             ? input.value = value.slice(0, i + 1)
             : input.textContent = value.slice(0, i + 1);
           await sleep(
-            isInput(input)
+            noSpace
               ? speed
               : value[i] === " " ? 0 : speed);
         } catch (e) {
@@ -259,7 +259,7 @@ export default function Home() {
         welcomeLines.forEach(element => {
           const text = element.textContent;
 
-          return typewriter(text, element, 20);
+          return typewriter(text, element, 20, true);
         });
         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
 
