@@ -42,6 +42,20 @@
         "output": " - coding \n - hardware \n - 3d printing \n - playing the piano \n - physics \n - fighter jets (F-22 Raptor) \n "
     },
     {
+        "command": "links",
+        "isFunction": false,
+        "delay": 300,
+        "isArt": false,
+        "output": " - <a href='https://github.com/Lumethra'>Github accout</a> \n - <a href='https://hackclub.enterprise.slack.com/team/U08AS03UXAN'>Slack account</a>"
+    },
+    {
+        "command": "hackclub",
+        "isFunction": false,
+        "delay": 300,
+        "isArt": false,
+        "output": "\nHackClub is a non-profit organization, which helps teens to make their dream projects reality. They provide funding for teenagers all over the world. For me, HackClub is a great space to find new friends, experience stuff together and have fun Coding. I even convinced myself to learn how to design PCBs (Printer Circuit Boards) and soldering with some friends from New Zealand during a project called <a href='fallout.hackclub.com'>Fallout</a>. \n \nIf you are under 18 or know someone that is, check it out here: <a href='hackclub.com'>hackclub.com</a>"
+    },
+    {
         "command": "orphie",
         "isFunction": false,
         "delay": 400,

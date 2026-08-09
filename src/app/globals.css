@@ -30,8 +30,14 @@ body {
 }
 
 a {
-  color: inherit;
+  color: #00ff00;
   text-decoration: none;
+  position: relative;
+}
+
+a:hover {
+  text-decoration: underline;
+  text-shadow: 0 0 5px #00ff00;
 }
 
 #input {
