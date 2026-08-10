@@ -256,12 +256,28 @@ export default function Home() {
         const welcomeLines = outputLine.querySelectorAll('.welcome > span');
         if (!welcomeLines) return;
 
-        welcomeLines.forEach(element => {
+        outputLine.classList.toggle('zoomed');
+
+
+        // welcomeLines.forEach(element => {
+        //   const text = element.textContent;
+
+        //   return typewriter(text, element, 20, false);
+        // });
+
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
+
+        const animationPromises = Array.from(welcomeLines).map(element => {
           const text = element.textContent;
 
           return typewriter(text, element, 20, false);
         });
-        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
+
+        await Promise.all(animationPromises);
+
+        await sleep(1200);
+
+        outputLine.classList.toggle('zoomed');
 
         //await typewriter(welcome.textContent, welcome, 50);
       }
@@ -294,6 +310,10 @@ export default function Home() {
     localStorage.setItem("history", JSON.stringify(history));
   }
 
+  // function applyZoom() {
+  //   document.getElementById("history")?.querySelector(".zoom")?.classList.toggle('zoomed');
+  // }
+
   return (
     <div>
       <div id="history" ref={historyRef}></div>
@@ -306,6 +326,7 @@ export default function Home() {
           ╰─
           {/* we luve random ahh stack overflow posts */}
           <input type="text" id="command-input" ref={inputRef} onBlur={handleBlur} onKeyDown={handleKeyDown} onChange={handleInputChange} />
+          {/*<button onClick={applyZoom}>hiii</button>*/}
         </div>
       </div>
     </div >
